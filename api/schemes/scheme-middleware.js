@@ -1,4 +1,5 @@
 const db = require('../../data/db-config')
+const { merge } = require('./scheme-router')
 /*
   If `scheme_id` does not exist in the database:
 
@@ -35,7 +36,19 @@ const checkSchemeId = async (req, res, next) => {
   }
 */
 const validateScheme = (req, res, next) => {
-
+  const { scheme_name } = req.body
+  if (
+    scheme_name === undefined ||
+    typeof scheme_name !== 'string' ||
+    !scheme_name.trim()
+  ) {
+    next({
+      status: 400,
+      message: "invalid scheme_name"
+    })
+  } else {
+    next()
+  }
 }
 
 /*
